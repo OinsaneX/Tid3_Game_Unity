@@ -8,6 +8,7 @@ public class Dialog : MonoBehaviour
     public DialogNpc[] dialogs = new DialogNpc[2];
 
     private bool dialogFinished = false;
+    public GameObject IconTalk;
 
     DialogController dialogController;
 
@@ -28,7 +29,6 @@ public class Dialog : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerController>().Move = false;
             collision.GetComponent<PlayerController>().anim.SetFloat("Speed",0);
 
 
@@ -36,10 +36,12 @@ public class Dialog : MonoBehaviour
             if (!dialogFinished)
             {
                 dialogController.NextDialog(dialogs[0]);
+                IconTalk.SetActive(true);
             }
             else
             {
                 dialogController.NextDialog(dialogs[1]);
+                IconTalk.SetActive(true);
             }
             dialogFinished = true;
         }

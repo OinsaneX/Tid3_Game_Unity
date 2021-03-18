@@ -10,6 +10,8 @@ public class DialogController : MonoBehaviour
     public GameObject Answer;
     private bool dialogActive = false;
     DialogNpc dialogs;
+    public GameObject Icontalk;
+    public Canvas ControllerCanvas;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +32,9 @@ public class DialogController : MonoBehaviour
                 PanelDialog.SetActive(false);
                 dialogNpc.gameObject.SetActive(false);
                 FindObjectOfType<PlayerController>().Move = true;
+
+                ControllerCanvas.enabled = true;
+                Icontalk.SetActive(false);
 
             }
         }
@@ -52,12 +57,18 @@ public class DialogController : MonoBehaviour
     {
         dialogs = dialog;
 
+       
+        FindObjectOfType<PlayerController>().Move = false;
+
+
         clearAnswers();
         dialogActive = true;
         PanelDialog.gameObject.SetActive(true);
         dialogNpc.gameObject.SetActive(true);
+        ControllerCanvas.enabled = false;
 
         dialogNpc.text = dialogs.dialog;
+       
     }
 
     public void clearAnswers()

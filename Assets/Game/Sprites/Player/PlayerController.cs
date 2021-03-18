@@ -16,14 +16,13 @@ public class PlayerController : MonoBehaviour
     public Animator anim;
     private float Speed = 1f;
     private Rigidbody2D _rigibody;
-    public bool Move = true;
     private float jumpForce = 5f;
     private bool grounded = true;
-    private bool running = false;
     public AudioSource audio;
     public int experience;
     public const int MaxExperience = 100;
     public Joystick joystick;
+    public bool Move = true;
     
 
 
@@ -45,17 +44,21 @@ public class PlayerController : MonoBehaviour
 
     private void MovementFunctions()
     {
+        var movement = 0.0f;
+
+        if (Move)
+        {
+             movement = joystick.Horizontal * 2;
+
+        }
+
+
+
+        anim.SetFloat("Speed", Mathf.Abs(movement * Speed));
 
         
-          
-              var movement = joystick.Horizontal*2;
-        
-          
-
-            anim.SetFloat("Speed", Mathf.Abs(movement * Speed));
-
-                transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * Speed;
-            
+            transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * Speed;
+       
 
 
             if (!Mathf.Approximately(0, movement))
@@ -63,15 +66,7 @@ public class PlayerController : MonoBehaviour
                 transform.rotation = movement > 0 ? Quaternion.identity : Quaternion.Euler(0, 180, 0);
             }
 
-            if (Input.GetButton("Fire3"))
-            {
-                running = true;
-            }
-            else
-            {
-                running = false;
-            }
-
+           
             if (Input.GetButtonDown("Jump") && Mathf.Abs(_rigibody.velocity.y) < 0.01f)
             {
                 anim.SetTrigger("Jump");
@@ -93,6 +88,10 @@ public class PlayerController : MonoBehaviour
         {
             grounded = false;
             anim.SetBool("Ground",false);
+        }
+        if (collision.CompareTag("Map"))
+        {
+            transform.position = new Vector3(-4.852131f, -2.92f, 0);
         }
     }
 
